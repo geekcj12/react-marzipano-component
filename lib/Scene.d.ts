@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { Geometry, ImageUrlSource, Scene as MarzipanoScene, View } from "marzipano";
+import { Geometry, ImageUrlSourceOpts, Scene as MarzipanoScene, Rect, Tile, View } from "marzipano";
 interface SceneContext {
     setGeometry: (geometry: Geometry) => void;
     setView: (view: View) => void;
@@ -7,8 +7,16 @@ interface SceneContext {
 export declare const useSceneContext: () => SceneContext;
 interface SceneProps {
     children?: React.ReactNode;
-    source: string | ImageUrlSource;
+    source: string | ((tile: Tile) => {
+        url: string;
+        rect?: Rect;
+    });
+    imageUrlSourceFromStringOptions?: {
+        cubeMapPreviewUrl?: string;
+        cubeMapPreviewFaceOrder?: string;
+    };
+    imageUrlSourceOptions?: ImageUrlSourceOpts;
     onLoaded?: (scene: MarzipanoScene) => void;
 }
-export default function Scene({ children, source, onLoaded }: SceneProps): import("react/jsx-runtime").JSX.Element;
+export default function Scene({ children, source, imageUrlSourceFromStringOptions, imageUrlSourceOptions, onLoaded, }: SceneProps): import("react/jsx-runtime").JSX.Element;
 export {};

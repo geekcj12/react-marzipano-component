@@ -1,2 +1,2 @@
-export { default as useMarzipano } from './useViewer';
-export { default as useGeometry } from './useGeometry';
+export { default as useViewer } from './useViewer';
+export { default as useCreateGeometry } from './useCreateGeometry';

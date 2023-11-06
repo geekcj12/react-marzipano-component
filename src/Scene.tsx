@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Geometry, ImageUrlSource, Scene as MarzipanoScene, View } from "marzipano";
+import { Geometry, ImageUrlSource, ImageUrlSourceOpts, Scene as MarzipanoScene, Rect, Tile, View } from "marzipano";
 import { useViewerContext } from "./Viewer";
 
 interface SceneContext {
@@ -16,11 +16,19 @@ export const useSceneContext = () => useContext(Context);
 
 interface SceneProps {
   children?: React.ReactNode;
-  source: string | ImageUrlSource;
+  source: string | ((tile: Tile) => { url: string; rect?: Rect; });
+  imageUrlSourceFromStringOptions?: { cubeMapPreviewUrl?: string; cubeMapPreviewFaceOrder?: string };
+  imageUrlSourceOptions?: ImageUrlSourceOpts;
   onLoaded?: (scene: MarzipanoScene) => void;
 }
 
-export default function Scene({ children, source, onLoaded }: SceneProps) {
+export default function Scene({
+  children,
+  source,
+  imageUrlSourceFromStringOptions = {},
+  imageUrlSourceOptions = {},
+  onLoaded,
+}: SceneProps) {
   const { viewerRef, viewer } = useViewerContext();
   const [geometry, setGeometry] = useState<Geometry | null>(null);
   const [view, setView] = useState<View | null>(null);
@@ -33,9 +41,9 @@ export default function Scene({ children, source, onLoaded }: SceneProps) {
     let imageUrlSource: ImageUrlSource;
       
     if (typeof source === 'string') {
-      imageUrlSource = ImageUrlSource.fromString(source, {});
+      imageUrlSource = ImageUrlSource.fromString(source, imageUrlSourceFromStringOptions);
     } else {
-      imageUrlSource = source;
+      imageUrlSource = new ImageUrlSource(source, imageUrlSourceOptions);
     }
     
     const scene = viewer.createScene({
@@ -52,7 +60,9 @@ export default function Scene({ children, source, onLoaded }: SceneProps) {
     }
 
     return () => {
-      scene.destroy();
+      if (scene) {
+        scene.destroy();
+      }
     }
   }, [viewerRef, viewer, onLoaded]);
   

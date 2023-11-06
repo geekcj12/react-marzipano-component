@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-// import { Viewer, ViewerOpts } from "marzipano";
 import { Viewer, ViewerOpts } from "marzipano";
 
 interface useViewerPropps {
@@ -20,7 +19,7 @@ export default function useViewer({
   const [viewer, setViewer] = useState<Viewer | null>(null);
 
   useEffect(() => {
-    if (viewerRef.current) {
+    if (viewerRef.current && !viewer) {
       const viewer = new Viewer(viewerRef.current, viewerOpts);
       setViewer(viewer);
     }
@@ -30,7 +29,7 @@ export default function useViewer({
         viewer?.destroy();
       }
     };
-  }, []);
+  }, [viewer, viewerOpts]);
 
   return {
     viewerRef,
