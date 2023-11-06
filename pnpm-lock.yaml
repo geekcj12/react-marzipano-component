@@ -13,6 +13,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-marzipano-component:
+    specifier: ^0.0.1
+    version: 0.0.1(react-dom@18.2.0)(react@18.2.0)(rollup@2.79.1)(tslib@2.6.2)(typescript@4.9.5)
 
 devDependencies:
   '@types/node':
@@ -1628,6 +1631,22 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-marzipano-component@0.0.1(react-dom@18.2.0)(react@18.2.0)(rollup@2.79.1)(tslib@2.6.2)(typescript@4.9.5):
+    resolution: {integrity: sha512-rOyltllaGdtQNcl2W5K8w1UweZEQN/a49hM+aJnLxM3q1P80qCVlvBrybEfsdNsQViJnmlEXSEOCIyaWalCojg==}
+    peerDependencies:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    dependencies:
+      '@rollup/plugin-typescript': 8.5.0(rollup@2.79.1)(tslib@2.6.2)(typescript@4.9.5)
+      marzipano: 0.10.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    transitivePeerDependencies:
+      - rollup
+      - tslib
+      - typescript
     dev: false
 
   /react-refresh@0.14.0:

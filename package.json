@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@rollup/plugin-typescript": "8.5.0",
-    "marzipano": "^0.10.2"
+    "marzipano": "^0.10.2",
+    "react-marzipano-component": "^0.0.1"
   }
 }
