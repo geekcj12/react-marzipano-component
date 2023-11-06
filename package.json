@@ -1,15 +1,21 @@
 {
   "name": "react-marzipano-component",
   "description": "A React component wrapped with Marzipano",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "./lib/react-marzipano.umd.cjs",
   "module": "./lib/react-marzipano.js",
   "types": "./lib/index.d.ts",
+  "license": "MIT",
+  "homepage": "https://github.com/geekcj12/react-marzipano-component",
   "author": {
     "name": "geekcj12",
     "email": "geekcj@geekcj.com"
   },
+  "keywords": [
+    "react",
+    "marzipano"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && cp src/types/marzipano.d.ts lib/",
