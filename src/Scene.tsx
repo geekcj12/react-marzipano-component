@@ -58,12 +58,6 @@ export default function Scene({
     if (onLoaded) {
       onLoaded(scene);
     }
-
-    return () => {
-      if (scene) {
-        scene.destroy();
-      }
-    }
   }, [viewerRef, viewer, onLoaded]);
   
   return (

@@ -23,12 +23,6 @@ export default function useViewer({
       const viewer = new Viewer(viewerRef.current, viewerOpts);
       setViewer(viewer);
     }
-
-    return () => {
-      if (viewer) {
-        viewer?.destroy();
-      }
-    };
   }, [viewer, viewerOpts]);
 
   return {
