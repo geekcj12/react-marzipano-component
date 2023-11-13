@@ -17,12 +17,13 @@ pnpm add react-marzipano-component
 ### Single Resolution Cube
 
 ```tsx
-import { Viewer, Scene, RectilinearView, CubeGeometry } from 'react-marzipano-component'
+import { Viewer, Scene, CubeGeometry, ImageUrlSource, RectilinearView } from 'react-marzipano-component'
 
 export default function App() {  
   return (
     <Viewer style={{ position: 'absolute', inset: 0 }}>
-      <Scene source="//www.marzipano.net/media/cubemap/{f}.jpg">
+      <ImageUrlSource source="//www.marzipano.net/media/cubemap/{f}.jpg" />
+      <Scene>
         <CubeGeometry levelPropertiesList={[{ tileSize: 1024, size: 1024 }]} />
         <RectilinearView
           limiters={(limit) => ([
@@ -38,7 +39,7 @@ export default function App() {
 ### Multiresolution Flat
 
 ```tsx
-import { Viewer, Scene, FlatGeometry, FlatView } from 'react-marzipano-component'
+import { Viewer, Scene, FlatGeometry, FlatView, ImageUrlSource } from 'react-marzipano-component'
 
 export default function App() {
   const urlPrefix = '//www.marzipano.net/media/lisboa';
@@ -49,7 +50,10 @@ export default function App() {
   
   return (
     <Viewer style={{ position: 'absolute', inset: 0 }}>
-      <Scene source={(tile) => ({ url: tileUrl(tile.z+1, tile.x+1, tile.y+1) })}>
+      <Scene>
+        <ImageUrlSource
+          source={(tile) => ({ url: tileUrl(tile.z+1, tile.x+1, tile.y+1) })}
+        />
         <FlatGeometry
           levelPropertiesList={[
             { width: 756,   height: 312,   tileWidth: 756, tileHeight: 756 },
@@ -78,12 +82,13 @@ export default function App() {
 ### Equirectangular
 
 ```tsx
-import { Viewer, Scene, EquirectGeometry, RectilinearView } from 'react-marzipano-component'
+import { Viewer, Scene, EquirectGeometry, ImageUrlSource, RectilinearView } from 'react-marzipano-component'
 
 export default function App() {  
   return (
     <Viewer style={{ position: 'absolute', inset: 0 }}>
-      <Scene source="//www.marzipano.net/media/equirect/angra.jpg">
+      <Scene>
+        <ImageUrlSource source="//www.marzipano.net/media/equirect/angra.jpg" />
         <EquirectGeometry levelPropertiesList={[{ width: 4000 }]} />
         <RectilinearView
           params={{ yaw: Math.PI }}
