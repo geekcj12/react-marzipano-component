@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { RectilinearViewLimit, RectilinearViewLimiter } from "marzipano";
 import Viewer from "./Viewer";
 import Scene from "./Scene";
 import SingleAssetSource from "./source/SingleAssetSource";
@@ -25,6 +26,8 @@ interface VideoViewerProps {
   className?: string;
   style?: React.CSSProperties;
   levelPropertiesList?: { width: number }[];
+  params?: Partial<{ yaw: number, pitch: number, roll: number, fov: number }>;
+  limiters?: (limit: RectilinearViewLimit) => RectilinearViewLimiter[];
 }
 
 export default function VideoViewer({
@@ -32,6 +35,10 @@ export default function VideoViewer({
   className,
   style,
   levelPropertiesList = [{ width: 1 }],
+  params = { fov: Math.PI / 2 },
+  limiters = (limit) => ([
+    limit.vfov(90 * Math.PI / 180, 90 * Math.PI / 180)
+  ])
 }: VideoViewerProps) {
   const asset = useMemo(() => {
     if (!source) {
@@ -66,12 +73,8 @@ export default function VideoViewer({
         <SingleAssetSource asset={asset} />
         <EquirectGeometry levelPropertiesList={levelPropertiesList} />
          <RectilinearView
-            params={{
-              fov: Math.PI / 2,
-            }}
-            limiters={(limit) => ([
-              limit.vfov(90 * Math.PI / 180, 90 * Math.PI / 180)
-            ])}
+            params={params}
+            limiters={limiters}
         />
       </Scene>
     </Viewer>
