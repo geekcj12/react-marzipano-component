@@ -97,6 +97,25 @@ export default function App() {
 }
 ```
 
+### Video
+
+```tsx
+import { VideoViewer } from '../src';
+
+const videoSrc = '//www.marzipano.net/media/video/mercedes-f1-1280x640.mp4';
+
+function App() {  
+  return (
+    <VideoViewer
+      source={videoSrc}
+      style={{ position: 'absolute', inset: 0 }}
+    />
+  )
+}
+
+export default App
+```
+
 ## License
 
 MIT
