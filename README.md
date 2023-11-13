@@ -105,11 +105,11 @@ export default function App() {
 ### Video
 
 ```tsx
-import { VideoViewer } from '../src';
+import { VideoViewer } from 'react-marzipano-component';
 
 const videoSrc = '//www.marzipano.net/media/video/mercedes-f1-1280x640.mp4';
 
-function App() {  
+function App() {
   return (
     <VideoViewer
       source={videoSrc}
