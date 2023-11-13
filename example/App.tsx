@@ -1,10 +1,11 @@
 import React from 'react'
-import { Viewer, Scene, EquirectGeometry, RectilinearView } from 'react-marzipano-component'
+import { Viewer, Scene, EquirectGeometry, RectilinearView, ImageUrlSource } from 'react-marzipano-component'
 
 function App() {  
   return (
     <Viewer style={{ position: 'absolute', inset: 0 }}>
-      <Scene source="//www.marzipano.net/media/equirect/angra.jpg">
+      <Scene>
+        <ImageUrlSource source="//www.marzipano.net/media/equirect/angra.jpg" />
         <EquirectGeometry levelPropertiesList={[{ width: 4000 }]} />
         <RectilinearView
           params={{ yaw: Math.PI }}
