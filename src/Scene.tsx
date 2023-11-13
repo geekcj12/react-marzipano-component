@@ -1,13 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Geometry, ImageUrlSource, ImageUrlSourceOpts, Scene as MarzipanoScene, Rect, Tile, View } from "marzipano";
+import { Geometry, Scene as MarzipanoScene, Source, View } from "marzipano";
 import { useViewerContext } from "./Viewer";
 
 interface SceneContext {
+  setSource: (source: Source) => void;
   setGeometry: (geometry: Geometry) => void;
   setView: (view: View) => void;
 }
 
 const Context = createContext<SceneContext>({
+  setSource: () => {},
   setGeometry: () => {},
   setView: () => {},
 });
@@ -16,41 +18,30 @@ export const useSceneContext = () => useContext(Context);
 
 interface SceneProps {
   children?: React.ReactNode;
-  source: string | ((tile: Tile) => { url: string; rect?: Rect; });
-  imageUrlSourceFromStringOptions?: { cubeMapPreviewUrl?: string; cubeMapPreviewFaceOrder?: string };
-  imageUrlSourceOptions?: ImageUrlSourceOpts;
+  pinFirstLevel?: boolean;
   onLoaded?: (scene: MarzipanoScene) => void;
 }
 
 export default function Scene({
   children,
-  source,
-  imageUrlSourceFromStringOptions = {},
-  imageUrlSourceOptions = {},
+  pinFirstLevel = true,
   onLoaded,
 }: SceneProps) {
   const { viewerRef, viewer } = useViewerContext();
+  const [source, setSource] = useState<Source | null>(null);
   const [geometry, setGeometry] = useState<Geometry | null>(null);
   const [view, setView] = useState<View | null>(null);
 
   useEffect(() => {
-    if (!viewerRef || !viewer || !geometry || !view) {
+    if (!viewerRef || !viewer || !source || !geometry || !view) {
       return;
-    }
-
-    let imageUrlSource: ImageUrlSource;
-      
-    if (typeof source === 'string') {
-      imageUrlSource = ImageUrlSource.fromString(source, imageUrlSourceFromStringOptions);
-    } else {
-      imageUrlSource = new ImageUrlSource(source, imageUrlSourceOptions);
     }
     
     const scene = viewer.createScene({
-      source: imageUrlSource,
+      source,
       geometry,
       view,
-      pinFirstLevel: true
+      pinFirstLevel
     });
 
     scene.switchTo();
@@ -61,7 +52,7 @@ export default function Scene({
   }, [viewerRef, viewer, onLoaded]);
   
   return (
-    <Context.Provider value={{ setGeometry, setView }}>
+    <Context.Provider value={{ setSource, setGeometry, setView }}>
       {children}
     </Context.Provider>
   );

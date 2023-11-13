@@ -146,7 +146,7 @@ declare module 'marzipano' {
   class CubeGeometry implements Geometry {
     constructor(levelPropertiesList: { size: number; tileSize: number; }[]);
     type: string;
-    visibleTiles: (view: MarzipanoView, level: any) => Tile[];
+    visibleTiles: (view: View, level: any) => Tile[];
   }
 
   class FlatGeometry implements Geometry {
@@ -159,6 +159,11 @@ declare module 'marzipano' {
     constructor(sourceFromTile: (tile: Tile) => { url: string; rect?: Rect }, opts: ImageUrlSourceOpts);
     static fromString(url: string, opts: { cubeMapPreviewUrl?: string; cubeMapPreviewFaceOrder?: string }): Source;
     loadAsset: (stage: Stage, tile: Tile, done: () => any) => () => any;
+  }
+
+  class SingleAssetSource implements Source {
+    constructor(assets: Asset);
+    loadAsset(stage: Stage, tile: Tile, done: () => any): () => any;
   }
 
   class Scene {
@@ -261,13 +266,13 @@ declare module 'marzipano' {
     layerOpts?: LayerOpts;
   }
 
-  export interface View {
+  interface View {
     type: string;
     addEventListener: (name: 'change', fn: (e?: any) => any) => void;
     removeEventListener: (name: 'change' | 'resize', fn: (e?: any) => any) => void;
   }
 
-  export interface ViewerOpts {
+  interface ViewerOpts {
     controls?: {
       controls?: Controls;
       element?: Element;
@@ -468,6 +473,16 @@ declare module 'marzipano' {
     controlsInterrupt?: boolean;
     transitionDuration?: number;
     closest?: boolean;
+  }
+
+  interface Asset {
+    element: () => any;
+    height: () => number;
+    isDynamic: () => boolean;
+    timestamp: () => number;
+    width: () => number;
+    addEventListener: (name: 'change', fn: () => any) => void;
+    removeEventListener: (name: 'change', fn: () => any) => void;
   }
 
   type ViewerEventName = 'sceneChange' | 'viewChange';

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { RectilinearView as MarzipanoRectilinearView, RectilinearViewLimit, RectilinearViewLimiter, util } from "marzipano";
-import { useSceneContext } from "./Scene";
+import { useSceneContext } from "../Scene";
 
 interface RectilinearViewProps {
   params?: Partial<{ yaw: number, pitch: number, roll: number, fov: number }>;

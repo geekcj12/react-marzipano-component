@@ -1,4 +1,4 @@
-import useCreateGeometry from "./hooks/useCreateGeometry";
+import useCreateGeometry from "../hooks/useCreateGeometry";
 
 interface FlatGeometryProps {
   levelPropertiesList: { width: number; tileWidth: number; height: number; tileHeight: number; }[];

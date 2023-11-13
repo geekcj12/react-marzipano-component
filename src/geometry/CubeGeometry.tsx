@@ -1,4 +1,4 @@
-import useCreateGeometry from "./hooks/useCreateGeometry";
+import useCreateGeometry from "../hooks/useCreateGeometry";
 
 interface CubeGeometryProps {
   levelPropertiesList: { tileSize: number; size: number; }[];

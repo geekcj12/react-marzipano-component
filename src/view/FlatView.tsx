@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { FlatViewLimit, FlatViewLimiter, FlatView as MarzipanoFlatView, util } from "marzipano";
-import { useSceneContext } from "./Scene";
+import { useSceneContext } from "../Scene";
 
 interface FlatViewProps {
   params?: Partial<{x: number; y: number; zoom: number; mediaAspectRatio: number}>;

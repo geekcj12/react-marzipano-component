@@ -1,4 +1,4 @@
-import useCreateGeometry from "./hooks/useCreateGeometry";
+import useCreateGeometry from "../hooks/useCreateGeometry";
 
 interface EquirectGeometryProps {
   levelPropertiesList: { width: number }[];
