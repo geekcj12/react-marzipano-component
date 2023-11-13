@@ -1,22 +1,15 @@
 /// <reference types="react" />
-import { Geometry, ImageUrlSourceOpts, Scene as MarzipanoScene, Rect, Tile, View } from "marzipano";
+import { Geometry, Scene as MarzipanoScene, Source, View } from "marzipano";
 interface SceneContext {
+    setSource: (source: Source) => void;
     setGeometry: (geometry: Geometry) => void;
     setView: (view: View) => void;
 }
 export declare const useSceneContext: () => SceneContext;
 interface SceneProps {
     children?: React.ReactNode;
-    source: string | ((tile: Tile) => {
-        url: string;
-        rect?: Rect;
-    });
-    imageUrlSourceFromStringOptions?: {
-        cubeMapPreviewUrl?: string;
-        cubeMapPreviewFaceOrder?: string;
-    };
-    imageUrlSourceOptions?: ImageUrlSourceOpts;
+    pinFirstLevel?: boolean;
     onLoaded?: (scene: MarzipanoScene) => void;
 }
-export default function Scene({ children, source, imageUrlSourceFromStringOptions, imageUrlSourceOptions, onLoaded, }: SceneProps): import("react/jsx-runtime").JSX.Element;
+export default function Scene({ children, pinFirstLevel, onLoaded, }: SceneProps): import("react/jsx-runtime").JSX.Element;
 export {};
