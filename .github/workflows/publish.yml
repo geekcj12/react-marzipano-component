@@ -1,12 +1,8 @@
 name: Publish to npm
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -17,7 +13,13 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
-      - run: npm publish
+      - name: Build
+        run: |
+          yarn global add pnpm
+          pnpm i
+          pnpm build
+      - name: Publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         
