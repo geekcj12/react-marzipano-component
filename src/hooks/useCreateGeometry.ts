@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { CubeGeometry, EquirectGeometry, FlatGeometry } from "marzipano"
-import { useSceneContext } from "../Scene";
+import { useSceneContext } from "./";
 
 const GeometryMap = {
   cube: CubeGeometry,
@@ -8,16 +8,16 @@ const GeometryMap = {
   flat: FlatGeometry,
 };
 
-interface useCreateGeometryProps<T extends any> {
+interface useCreateGeometryProps {
   type: 'cube' | 'equirect' | 'flat';
-  levelPropertiesList: T;
+  levelPropertiesList: Record<string, unknown>[];
 }
 
-export default function useCreateGeometry<T extends any>({ type, levelPropertiesList }: useCreateGeometryProps<T>) {
+export default function useCreateGeometry({ type, levelPropertiesList }: useCreateGeometryProps) {
   const { setGeometry } = useSceneContext();
 
   useEffect(() => {
     const geometry = new GeometryMap[type](levelPropertiesList as any);
     setGeometry(geometry);
-  }, [levelPropertiesList, setGeometry]);
+  }, [levelPropertiesList, type, setGeometry]);
 }

@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useRef } from "react";
 import { Geometry, Scene as MarzipanoScene, Source, View } from "marzipano";
-import { useViewerContext } from "./Viewer";
+import { useViewerContext } from "./";
 
 interface SceneContext {
   setSource: (source: Source) => void;
@@ -8,13 +8,11 @@ interface SceneContext {
   setView: (view: View) => void;
 }
 
-const Context = createContext<SceneContext>({
+export const Context = createContext<SceneContext>({
   setSource: () => {},
   setGeometry: () => {},
   setView: () => {},
 });
-
-export const useSceneContext = () => useContext(Context);
 
 interface SceneProps {
   children?: React.ReactNode;
@@ -28,28 +26,45 @@ export default function Scene({
   onLoaded,
 }: SceneProps) {
   const { viewerRef, viewer } = useViewerContext();
-  const [source, setSource] = useState<Source | null>(null);
-  const [geometry, setGeometry] = useState<Geometry | null>(null);
-  const [view, setView] = useState<View | null>(null);
+  const sceneRef = useRef<MarzipanoScene | null>(null);
+  const sourceRef = useRef<Source | null>(null);
+  const geometryRef = useRef<Geometry | null>(null);
+  const viewRef = useRef<View | null>(null);
+
+  const setSource = useCallback((source: Source) => {
+    sourceRef.current = source;
+  }, []);
+
+  const setGeometry = useCallback((geometry: Geometry) => {
+    geometryRef.current = geometry;
+  }, []);
+
+  const setView = useCallback((view: View) => {
+    viewRef.current = view;
+  }, []);
 
   useEffect(() => {
+    const source = sourceRef.current;
+    const geometry = geometryRef.current;
+    const view = viewRef.current;
+    
     if (!viewerRef || !viewer || !source || !geometry || !view) {
       return;
     }
     
-    const scene = viewer.createScene({
+    sceneRef.current = viewer.createScene({
       source,
       geometry,
       view,
       pinFirstLevel
     });
 
-    scene.switchTo();
+    sceneRef.current.switchTo();
 
     if (onLoaded) {
-      onLoaded(scene);
+      onLoaded(sceneRef.current);
     }
-  }, [viewerRef, viewer, onLoaded]);
+  }, [viewerRef, viewer, pinFirstLevel, onLoaded]);
   
   return (
     <Context.Provider value={{ setSource, setGeometry, setView }}>
