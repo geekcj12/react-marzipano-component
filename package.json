@@ -1,7 +1,7 @@
 {
   "name": "react-marzipano-component",
   "description": "A React component wrapped with Marzipano",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "main": "./lib/react-marzipano.umd.cjs",
   "module": "./lib/react-marzipano.js",
