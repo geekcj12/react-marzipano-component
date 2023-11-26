@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Asset, SingleAssetSource as MarzipanoSingleAssetSource } from "marzipano";
-import { useSceneContext } from "../Scene";
+import { useSceneContext } from "../";
 
 interface SingleAssetSourceProps {
   asset: Asset;

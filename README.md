@@ -22,8 +22,8 @@ import { Viewer, Scene, CubeGeometry, ImageUrlSource, RectilinearView } from 're
 export default function App() {  
   return (
     <Viewer style={{ position: 'absolute', inset: 0 }}>
-      <ImageUrlSource source="//www.marzipano.net/media/cubemap/{f}.jpg" />
       <Scene>
+        <ImageUrlSource source="//www.marzipano.net/media/cubemap/{f}.jpg" />
         <CubeGeometry levelPropertiesList={[{ tileSize: 1024, size: 1024 }]} />
         <RectilinearView
           limiters={(limit) => ([

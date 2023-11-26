@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useEffect } from "react";
 import { Viewer as MarzipanoViewer, ViewerOpts } from 'marzipano';
 import useViewer from "./hooks/useViewer";
 
@@ -12,9 +12,7 @@ const defaultValue: ViewerContext = {
   viewer: null,
 };
 
-const Context = createContext<ViewerContext>(defaultValue);
-
-export const useViewerContext = () => useContext(Context);
+export const Context = createContext<ViewerContext>(defaultValue);
 
 interface ViewerProps {
   children?: React.ReactNode;
@@ -34,7 +32,7 @@ export default function Viewer({ children, opts, className, style, onLoaded }: V
     if (onLoaded) {
       onLoaded(viewer);
     }
-  }, []);
+  }, [viewerRef, viewer, onLoaded]);
   
   return (
     <div
