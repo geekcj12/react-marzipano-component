@@ -1,4 +1,4 @@
-name: Build and publish to npm
+name: Publish to npm
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,13 +14,7 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
-      - name: Build
-        run: |
-          yarn global add pnpm
-          pnpm i
-          pnpm build
-      - name: Publish
-        run: npm publish
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         
