@@ -2,7 +2,7 @@ import { createContext, useCallback, useEffect, useRef } from "react";
 import { Geometry, Scene as MarzipanoScene, Source, View } from "marzipano";
 import { useViewerContext } from "./";
 
-interface SceneContext {
+export interface SceneContext {
   setSource: (source: Source) => void;
   setGeometry: (geometry: Geometry) => void;
   setView: (view: View) => void;

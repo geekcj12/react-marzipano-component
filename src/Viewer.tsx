@@ -2,8 +2,8 @@ import { createContext, useEffect } from "react";
 import { Viewer as MarzipanoViewer, ViewerOpts } from 'marzipano';
 import useViewer from "./hooks/useViewer";
 
-interface ViewerContext {
-  viewerRef: React.RefObject<HTMLDivElement> | null;
+export interface ViewerContext {
+  viewerRef: React.RefObject<HTMLDivElement | null> | null;
   viewer: MarzipanoViewer | null;
 }
 
