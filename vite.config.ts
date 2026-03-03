@@ -16,16 +16,17 @@ export default defineConfig({
       fileName: 'react-marzipano'
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
         globals: {
           react: 'react',
-          'react-dom': 'react-dom'
+          'react-dom': 'react-dom',
+          'react/jsx-runtime': 'react/jsx-runtime',
         }
       },
       plugins: [
         typescript({
-          target: 'es5',
+          target: 'ES2017',
           rootDir: path.resolve(__dirname, 'src/'),
           declaration: true,
           declarationDir: path.resolve(__dirname, 'lib/'),
