@@ -30,10 +30,12 @@
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "marzipano": "^0.10.2"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^12.3.0",
+    "marzipano": "^0.10.2",
     "@types/node": "20.19.35",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -46,8 +48,5 @@
     "tslib": "^2.6.2",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"
-  },
-  "dependencies": {
-    "marzipano": "^0.10.2"
   }
 }
