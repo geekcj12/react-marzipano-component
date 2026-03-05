@@ -19,11 +19,16 @@ export default function useViewer({
   const [viewer, setViewer] = useState<Viewer | null>(null);
 
   useEffect(() => {
-    if (viewerRef.current && !viewer) {
-      const viewer = new Viewer(viewerRef.current, viewerOpts);
-      setViewer(viewer);
-    }
-  }, [viewer, viewerOpts]);
+    if (!viewerRef.current) return;
+
+    const v = new Viewer(viewerRef.current, viewerOpts);
+    setViewer(v);
+
+    return () => {
+      v.destroy();
+      setViewer(null);
+    };
+  }, [viewerOpts]);
 
   return {
     viewerRef,

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RectilinearViewLimit, RectilinearViewLimiter } from "marzipano";
 import Viewer from "./Viewer";
 import Scene from "./Scene";
@@ -12,13 +12,14 @@ function waitForReadyState(
   readyState: number,
   interval: number,
   done: (arg1: any, arg2: boolean) => void,
-) {
-  const timer = setInterval(function() {
+): () => void {
+  const timer = setInterval(function () {
     if (element.readyState >= readyState) {
       clearInterval(timer);
       done(null, true);
     }
   }, interval);
+  return () => clearInterval(timer);
 }
 
 interface VideoViewerProps {
@@ -89,16 +90,19 @@ export default function VideoViewer({
   onWaiting,
 }: VideoViewerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  
-  const asset = useMemo(() => {
+  const [asset, setAsset] = useState<VideoAsset | null>(null);
+
+  useEffect(() => {
     if (!source) {
-      return null;
+      setAsset(null);
+      return;
     }
 
+    const cancelTimers: (() => void)[] = [];
     const videoAsset = new VideoAsset();
-    videoRef.current = document.createElement('video');
+    const video = document.createElement('video');
+    videoRef.current = video;
 
-    const video = videoRef.current;
     video.src = source;
     video.playsInline = true;
     video.crossOrigin = 'anonymous';
@@ -107,13 +111,23 @@ export default function VideoViewer({
     video.volume = volume;
     video.load();
 
-    waitForReadyState(video, video.HAVE_METADATA, 100, () => {
-      waitForReadyState(video, video.HAVE_ENOUGH_DATA, 100, () => {
+    const cancelOuter = waitForReadyState(video, video.HAVE_METADATA, 100, () => {
+      const cancelInner = waitForReadyState(video, video.HAVE_ENOUGH_DATA, 100, () => {
         videoAsset.setVideo(video);
       });
+      cancelTimers.push(cancelInner);
     });
+    cancelTimers.push(cancelOuter);
 
-    return videoAsset;
+    setAsset(videoAsset);
+
+    return () => {
+      cancelTimers.forEach(cancel => cancel());
+      videoAsset.destroy();
+      video.pause();
+      video.removeAttribute('src');
+      videoRef.current = null;
+    };
   }, [source]);
 
   useEffect(() => {
@@ -213,15 +227,15 @@ export default function VideoViewer({
   if (!asset) {
     return null;
   }
-  
+
   return (
     <Viewer className={className} style={style}>
       <Scene>
         <SingleAssetSource asset={asset} />
         <EquirectGeometry levelPropertiesList={levelPropertiesList} />
-         <RectilinearView
-            params={params}
-            limiters={limiters}
+        <RectilinearView
+          params={params}
+          limiters={limiters}
         />
       </Scene>
     </Viewer>
