@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useRef } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { Geometry, Scene as MarzipanoScene, Source, View } from "marzipano";
 import { useViewerContext } from "./";
 
@@ -26,48 +26,41 @@ export default function Scene({
   onLoaded,
 }: SceneProps) {
   const { viewerRef, viewer } = useViewerContext();
-  const sceneRef = useRef<MarzipanoScene | null>(null);
-  const sourceRef = useRef<Source | null>(null);
-  const geometryRef = useRef<Geometry | null>(null);
-  const viewRef = useRef<View | null>(null);
-
-  const setSource = useCallback((source: Source) => {
-    sourceRef.current = source;
-  }, []);
-
-  const setGeometry = useCallback((geometry: Geometry) => {
-    geometryRef.current = geometry;
-  }, []);
-
-  const setView = useCallback((view: View) => {
-    viewRef.current = view;
-  }, []);
+  const [source, setSource] = useState<Source | null>(null);
+  const [geometry, setGeometry] = useState<Geometry | null>(null);
+  const [view, setView] = useState<View | null>(null);
 
   useEffect(() => {
-    const source = sourceRef.current;
-    const geometry = geometryRef.current;
-    const view = viewRef.current;
-    
     if (!viewerRef || !viewer || !source || !geometry || !view) {
       return;
     }
-    
-    sceneRef.current = viewer.createScene({
+
+    const scene = viewer.createScene({
       source,
       geometry,
       view,
       pinFirstLevel
     });
 
-    sceneRef.current.switchTo();
+    scene.switchTo();
 
     if (onLoaded) {
-      onLoaded(sceneRef.current);
+      onLoaded(scene);
     }
-  }, [viewerRef, viewer, pinFirstLevel, onLoaded]);
-  
+
+    return () => {
+      viewer.destroyScene(scene);
+    };
+  }, [viewerRef, viewer, source, geometry, view, pinFirstLevel, onLoaded]);
+
+  const contextValue = useMemo<SceneContext>(() => ({
+    setSource,
+    setGeometry,
+    setView,
+  }), [setSource, setGeometry, setView]);
+
   return (
-    <Context.Provider value={{ setSource, setGeometry, setView }}>
+    <Context.Provider value={contextValue}>
       {children}
     </Context.Provider>
   );
