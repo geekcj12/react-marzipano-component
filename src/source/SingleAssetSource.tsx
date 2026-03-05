@@ -12,6 +12,6 @@ export default function SingleAssetSource({ asset }: SingleAssetSourceProps) {
   useEffect(() => {
     setSource(new MarzipanoSingleAssetSource(asset));
   }, [asset, setSource]);
-  
+
   return null;
 }

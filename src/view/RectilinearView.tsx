@@ -16,10 +16,10 @@ export default function RectilinearView({ params, limiters }: RectilinearViewPro
     if (limiters) {
       limiter = util.compose(...limiters(MarzipanoRectilinearView.limit));
     }
-    
+
     const view = new MarzipanoRectilinearView(params, limiter ?? undefined);
     setView(view);
   }, [params, limiters, setView]);
-  
+
   return null;
 }

@@ -22,6 +22,6 @@ export default function ImageUrlSource({ source, options }: ImageUrlSourceProps)
       setSource(new MarzipanoImageUrlSource(source, options as ImageUrlSourceOpts));
     }
   }, [source, options, setSource]);
-  
+
   return null;
 }
