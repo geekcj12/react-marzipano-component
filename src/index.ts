@@ -1,3 +1,5 @@
+/// <reference path="./types/marzipano.d.ts" />
+
 export * as Marzipano from 'marzipano';
 
 export { default as Viewer } from './Viewer';

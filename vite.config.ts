@@ -16,12 +16,13 @@ export default defineConfig({
       fileName: 'react-marzipano'
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'marzipano'],
       output: {
         globals: {
           react: 'react',
           'react-dom': 'react-dom',
           'react/jsx-runtime': 'react/jsx-runtime',
+          marzipano: 'Marzipano',
         }
       },
       plugins: [
