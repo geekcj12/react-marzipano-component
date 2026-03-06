@@ -6,12 +6,14 @@ export interface SceneContext {
   setSource: (source: Source) => void;
   setGeometry: (geometry: Geometry) => void;
   setView: (view: View) => void;
+  scene: MarzipanoScene | null;
 }
 
 export const Context = createContext<SceneContext>({
   setSource: () => {},
   setGeometry: () => {},
   setView: () => {},
+  scene: null,
 });
 
 interface SceneProps {
@@ -29,6 +31,7 @@ export default function Scene({
   const [source, setSource] = useState<Source | null>(null);
   const [geometry, setGeometry] = useState<Geometry | null>(null);
   const [view, setView] = useState<View | null>(null);
+  const [sceneInstance, setSceneInstance] = useState<MarzipanoScene | null>(null);
 
   useEffect(() => {
     if (!viewerRef || !viewer || !source || !geometry || !view) {
@@ -43,12 +46,14 @@ export default function Scene({
     });
 
     scene.switchTo();
+    setSceneInstance(scene);
 
     if (onLoaded) {
       onLoaded(scene);
     }
 
     return () => {
+      setSceneInstance(null);
       viewer.destroyScene(scene);
     };
   }, [viewerRef, viewer, source, geometry, view, pinFirstLevel, onLoaded]);
@@ -57,7 +62,8 @@ export default function Scene({
     setSource,
     setGeometry,
     setView,
-  }), [setSource, setGeometry, setView]);
+    scene: sceneInstance,
+  }), [setSource, setGeometry, setView, sceneInstance]);
 
   return (
     <Context.Provider value={contextValue}>
