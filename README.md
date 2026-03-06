@@ -102,6 +102,40 @@ export default function App() {
 }
 ```
 
+### Hotspot
+
+```tsx
+import { Viewer, Scene, EquirectGeometry, ImageUrlSource, RectilinearView, Hotspot } from 'react-marzipano-component'
+
+export default function App() {
+  return (
+    <Viewer style={{ position: 'absolute', inset: 0 }}>
+      <Scene>
+        <ImageUrlSource source="//www.marzipano.net/media/equirect/angra.jpg" />
+        <EquirectGeometry levelPropertiesList={[{ width: 4000 }]} />
+        <RectilinearView
+          params={{ yaw: Math.PI }}
+          limiters={(limit) => ([
+            limit.traditional(1024, 100 * Math.PI / 180)
+          ])}
+        />
+        <Hotspot position={{ yaw: Math.PI / 4, pitch: Math.PI / 8 }}>
+          <div style={{ background: 'red', borderRadius: '50%', width: 20, height: 20 }} />
+        </Hotspot>
+      </Scene>
+    </Viewer>
+  );
+}
+```
+
+`Hotspot` props:
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `position` | `{ yaw: number; pitch: number }` \| `{ x: number; y: number }` | Hotspot position in the panorama. Use `yaw/pitch` for `RectilinearView`, `x/y` for `FlatView`. |
+| `opts` | `{ perspective: { radius?: number; extraTransforms?: string } }` | Optional perspective options. |
+| `children` | `React.ReactNode` | Content to render inside the hotspot. |
+
 ### Video
 
 ```tsx
