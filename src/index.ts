@@ -2,6 +2,7 @@ export * as Marzipano from 'marzipano';
 
 export { default as Viewer } from './Viewer';
 export { default as Scene } from './Scene';
+export { default as Hotspot } from './Hotspot';
 export { default as ImageUrlSource } from './source/ImageUrlSource';
 export { default as SingleAssetSource } from './source/SingleAssetSource';
 export { default as EquirectGeometry } from './geometry/EquirectGeometry';
