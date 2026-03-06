@@ -6,6 +6,7 @@ on:
       - main
 
 permissions:
+  id-token: write
   contents: write
   pull-requests: write
 
@@ -43,6 +44,4 @@ jobs:
 
       - run: pnpm build
 
-      - run: pnpm publish --no-git-checks --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: pnpm publish --no-git-checks --access public --provenance
